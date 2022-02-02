@@ -57,9 +57,15 @@ const updateDate = (date) => {
   document.querySelector('[data-seconds]').innerText = date.seconds;
 };
 
+let interval = null;
+
 startBtn.addEventListener('click', () => {
   updateDate(convertMs(selectedDate - new Date().getTime()));
-  setInterval(() => {
+  interval = setInterval(() => {
+    const leftTime = convertMs(selectedDate - new Date().getTime());
     updateDate(convertMs(selectedDate - new Date().getTime()));
+    if (Object.values(leftTime).every((val) => Number(val) === 0)) {
+      clearInterval(interval);
+    }
   }, 1000);
 });
